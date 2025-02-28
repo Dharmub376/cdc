@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <style>
+        * { box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
+        .container { background: white; padding: 20px; width: 300px; text-align: center; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 8px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; }
+        .error { color: red; font-size: 12px; text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register</h2>
+        <input id="fullname" placeholder="Full Name"><div class="error"></div>
+        <input id="email" placeholder="Email"><div class="error"></div>
+        <input type="password" id="password" placeholder="Password"><div class="error"></div>
+        <input type="date" id="dob"><div class="error"></div>
+        <button onclick="validate()">Submit</button>
+    </div>
+    <script>
+        function validate() {
+            let fields = ["fullname", "email", "password", "dob"],
+                errors = ["Enter full name", "Invalid email", "Password must be at least 6 chars", "Enter date of birth"],
+                validators = [v => v.trim() !== "", v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v), v => v.length >= 6, v => v.trim() !== ""],
+                inputs = fields.map(id => document.getElementById(id)),
+                errorDivs = document.querySelectorAll(".error");
+            
+            let valid = inputs.every((inp, i) => !(errorDivs[i].innerText = validators[i](inp.value) ? "" : errors[i]));
+            
+            if (valid) alert("Form submitted!");
+        }
+    </script>
+</body>
+</html>
